@@ -1,10 +1,7 @@
-# Set the Go binary name
 BINARY := checkemailbot
 
-# Set the Go build flags
 LDFLAGS := -ldflags="-s -w"
 
-# Linux targets
 linux:
     GOOS=linux GOARCH=amd64 $(MAKE) build
 
@@ -17,7 +14,6 @@ linux-run: linux-build
 linux-clean:
 	rm -f $(BINARY)
 
-# macOS targets
 darwin:
     GOOS=darwin GOARCH=amd64 $(MAKE) build
 
@@ -30,10 +26,8 @@ darwin-run: darwin-build
 darwin-clean:
 	rm -f $(BINARY)
 
-# Clean up binaries
 clean: linux-clean darwin-clean
 
-# Print the help message
 help:
 	@echo "Usage:"
 	@echo "  make linux         Build the binary for amd64/linux"
