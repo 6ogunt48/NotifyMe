@@ -4,11 +4,6 @@ import (
 	"fmt"
 )
 
-func main() {
-	fmt.Println("hello world")
-
-}
-
 type logindetails struct {
 	server   string
 	port     int16
@@ -16,14 +11,16 @@ type logindetails struct {
 	password string
 }
 
-func loadTOML() {
+func main() {
+	fmt.Println("hello world")
 
+}
+
+func loadTOML() {
 }
 
 func verifyIMAP() {
 
 }
 
-func checkMail() {
-
-}
+func checkMail() {}
