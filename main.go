@@ -30,24 +30,21 @@ func IMAPOperation(config Config) {
 		success := verifyIMAPConnection(imap.Server, imap.Port, imap.Username, imap.Password)
 		if success {
 			log.Println("IMAP connection successful for", imap.Username)
-		} else {
-			log.Println("Program wont continue if one or more IMAP returns an error")
-			log.Fatalln("IMAP Connection failed for", imap.Username)
 		}
 	}
 
 }
 
 func verifyIMAPConnection(server string, port int16, Username, Password string) bool {
-	conn, err := imapclient.DialTLS(fmt.Sprintf("%s:%d\n", server, port), nil)
+	conn, err := imapclient.DialTLS(fmt.Sprintf("%s:%d", server, port), nil)
 	if err != nil {
-		log.Printf("failed to dial IMAP Server: %v\n", err)
+		log.Printf("%v: failed to dial IMAP Server: %v", Username, err)
 		return false
 	}
 	defer conn.Close()
 
 	if err := conn.Login(Username, Password).Wait(); err != nil {
-		log.Printf("Failed to login: %v\n", err)
+		log.Printf("%v:Failed to login: %v", Username, err)
 		return false
 	}
 	return true
