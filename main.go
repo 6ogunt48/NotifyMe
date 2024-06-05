@@ -3,43 +3,67 @@ package main
 import (
 	"fmt"
 	"github.com/BurntSushi/toml"
+	"github.com/emersion/go-imap/v2/imapclient"
 	"log"
 	"os"
 )
 
 type Config struct {
 	LoginDetails []struct {
-		server   string
-		port     int16
-		username string
-		password string
+		Server   string `toml:"server"`
+		Port     int16  `toml:"Port"`
+		Username string `toml:"username"`
+		Password string `toml:"password"`
 	}
 }
 
 func main() {
-	fmt.Println("hello world")
+	config, err := loadConfig("config.toml")
+	if err != nil {
+		log.Fatal("Error loading config:", err)
+	}
+	IMAPOperation(config)
 }
 
-func verifyIMAP() {
+func IMAPOperation(config Config) {
+	for _, imap := range config.LoginDetails {
+		success := verifyIMAPConnection(imap.Server, imap.Port, imap.Username, imap.Password)
+		if success {
+			log.Println("IMAP connection successful for", imap.Username)
+		} else {
+			log.Println("Program wont continue if one or more IMAP returns an error")
+			log.Fatalln("IMAP Connection failed for", imap.Username)
+		}
+	}
 
+}
+
+func verifyIMAPConnection(server string, port int16, Username, Password string) bool {
+	conn, err := imapclient.DialTLS(fmt.Sprintf("%s:%d\n", server, port), nil)
+	if err != nil {
+		log.Printf("failed to dial IMAP Server: %v\n", err)
+		return false
+	}
+	defer conn.Close()
+
+	if err := conn.Login(Username, Password).Wait(); err != nil {
+		log.Printf("Failed to login: %v\n", err)
+		return false
+	}
+	return true
 }
 
 func checkMail() {}
 
-func readTOML() []byte {
-	data, err := os.ReadFile("config.toml")
+func loadConfig(filename string) (Config, error) {
+	data, err := os.ReadFile(filename)
+	if err != nil {
+		return Config{}, err
+	}
+	var config Config
+	err = toml.Unmarshal(data, &config)
 	if err != nil {
 		log.Fatal(err)
 	}
-	return data
-}
-
-func decodeTOML() Config {
-	var config Config
-	data := readTOML()
-	_, err := toml.Decode(string(data), &config)
-	if err != nil {
-		log.Fatal("Error decoding TOML:", err)
-	}
-	return config
+	return config, nil
 }
