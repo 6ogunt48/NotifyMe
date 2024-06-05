@@ -18,10 +18,7 @@ type Config struct {
 }
 
 func main() {
-	config, err := loadConfig("config.toml")
-	if err != nil {
-		log.Fatal("Error loading config:", err)
-	}
+	config, _ := loadConfig("config.toml")
 	IMAPOperation(config)
 }
 
