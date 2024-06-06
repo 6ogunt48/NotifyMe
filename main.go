@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/BurntSushi/toml"
+	"github.com/emersion/go-imap/v2"
 	"github.com/emersion/go-imap/v2/imapclient"
 	"log"
 	"os"
@@ -18,11 +19,11 @@ type Config struct {
 }
 
 func main() {
-	config, _ := loadConfig("config.toml")
+	config, _ := LoadConfig("config.toml")
 	IMAPOperation(config)
 }
 
-func loadConfig(filename string) (Config, error) {
+func LoadConfig(filename string) (Config, error) {
 	data, err := os.ReadFile(filename)
 	if err != nil {
 		return Config{}, err
@@ -44,9 +45,7 @@ func EstablishIMAPconn(server string, port int16, Username, Password string) (*i
 	}
 
 	if err := client.Login(Username, Password).Wait(); err != nil {
-		log.Printf("%v:Failed to login: %v", Username, err)
-		client.Logout()
-		return nil, nil
+		log.Fatalf("%v:Failed to login: %v", Username, err)
 	} else {
 		log.Println("IMAP connection and login successful for", Username)
 	}
@@ -57,14 +56,24 @@ func EstablishIMAPconn(server string, port int16, Username, Password string) (*i
 func IMAPOperation(config Config) {
 	count := 0
 	connections := make(map[string]*imapclient.Client)
-	for _, imap := range config.LoginDetails {
-		client, _ := EstablishIMAPconn(imap.Server, imap.Port, imap.Username, imap.Password)
+	for _, ImapInfo := range config.LoginDetails {
+		client, _ := EstablishIMAPconn(ImapInfo.Server, ImapInfo.Port, ImapInfo.Username, ImapInfo.Password)
 		if client != nil {
-			connections[imap.Username] = client
+			connections[ImapInfo.Username] = client
 			count++
 		}
+		CheckEmail(connections, ImapInfo.Username)
 	}
-	if count != len(config.LoginDetails) {
-		log.Fatalln("all login details in config has to be successful  before operation")
+}
+
+func CheckEmail(client map[string]*imapclient.Client, email string) *uint32 {
+	var UnreadCount *uint32
+	imapClient := client[email]
+	options := imap.StatusOptions{NumUnseen: true}
+	if data, err := imapClient.Status("INBOX", &options).Wait(); err != nil {
+		log.Fatalf("STATUS command failed: %v", err)
+	} else {
+		UnreadCount = data.NumUnseen
 	}
+	return UnreadCount
 }
