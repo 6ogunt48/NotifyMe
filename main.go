@@ -22,33 +22,6 @@ func main() {
 	IMAPOperation(config)
 }
 
-func IMAPOperation(config Config) {
-	for _, imap := range config.LoginDetails {
-		success := verifyIMAPConnection(imap.Server, imap.Port, imap.Username, imap.Password)
-		if success {
-			log.Println("IMAP connection successful for", imap.Username)
-		}
-	}
-
-}
-
-func verifyIMAPConnection(server string, port int16, Username, Password string) bool {
-	conn, err := imapclient.DialTLS(fmt.Sprintf("%s:%d", server, port), nil)
-	if err != nil {
-		log.Printf("%v: failed to dial IMAP Server: %v", Username, err)
-		return false
-	}
-	defer conn.Close()
-
-	if err := conn.Login(Username, Password).Wait(); err != nil {
-		log.Printf("%v:Failed to login: %v", Username, err)
-		return false
-	}
-	return true
-}
-
-func checkMail() {}
-
 func loadConfig(filename string) (Config, error) {
 	data, err := os.ReadFile(filename)
 	if err != nil {
@@ -60,4 +33,38 @@ func loadConfig(filename string) (Config, error) {
 		log.Fatal(err)
 	}
 	return config, nil
+}
+
+func EstablishIMAPconn(server string, port int16, Username, Password string) (*imapclient.Client, error) {
+	addr := fmt.Sprintf("%s:%d", server, port)
+	client, err := imapclient.DialTLS(addr, nil)
+	if err != nil {
+		log.Printf("%v: failed to dial IMAP Server: %v", Username, err)
+		return nil, err
+	}
+
+	if err := client.Login(Username, Password).Wait(); err != nil {
+		log.Printf("%v:Failed to login: %v", Username, err)
+		client.Logout()
+		return nil, nil
+	} else {
+		log.Println("IMAP connection and login successful for", Username)
+	}
+
+	return client, nil
+}
+
+func IMAPOperation(config Config) {
+	count := 0
+	connections := make(map[string]*imapclient.Client)
+	for _, imap := range config.LoginDetails {
+		client, _ := EstablishIMAPconn(imap.Server, imap.Port, imap.Username, imap.Password)
+		if client != nil {
+			connections[imap.Username] = client
+			count++
+		}
+	}
+	if count != len(config.LoginDetails) {
+		log.Fatalln("all login details in config has to be successful  before operation")
+	}
 }
