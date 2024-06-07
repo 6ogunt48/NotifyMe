@@ -40,8 +40,7 @@ func EstablishIMAPconn(server string, port int16, Username, Password string) (*i
 	addr := fmt.Sprintf("%s:%d", server, port)
 	client, err := imapclient.DialTLS(addr, nil)
 	if err != nil {
-		log.Printf("%v: failed to dial IMAP Server: %v", Username, err)
-		return nil, err
+		log.Fatalf("%v: failed to dial IMAP Server: %v", Username, err)
 	}
 
 	if err := client.Login(Username, Password).Wait(); err != nil {
@@ -54,14 +53,10 @@ func EstablishIMAPconn(server string, port int16, Username, Password string) (*i
 }
 
 func IMAPOperation(config Config) {
-	count := 0
 	connections := make(map[string]*imapclient.Client)
 	for _, ImapInfo := range config.LoginDetails {
 		client, _ := EstablishIMAPconn(ImapInfo.Server, ImapInfo.Port, ImapInfo.Username, ImapInfo.Password)
-		if client != nil {
-			connections[ImapInfo.Username] = client
-			count++
-		}
+		connections[ImapInfo.Username] = client
 		CheckEmail(connections, ImapInfo.Username)
 	}
 }
@@ -74,6 +69,9 @@ func CheckEmail(client map[string]*imapclient.Client, email string) *uint32 {
 		log.Fatalf("STATUS command failed: %v", err)
 	} else {
 		UnreadCount = data.NumUnseen
+	}
+	if err := imapClient.Logout().Wait(); err != nil {
+		log.Fatalf("failed to logout: %v", err)
 	}
 	return UnreadCount
 }
