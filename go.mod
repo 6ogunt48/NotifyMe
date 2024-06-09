@@ -5,6 +5,7 @@ go 1.22
 require (
 	github.com/BurntSushi/toml v1.4.0
 	github.com/emersion/go-imap/v2 v2.0.0-beta.3
+	gopkg.in/telebot.v3 v3.2.1
 )
 
 require (
