@@ -3,7 +3,7 @@ FROM  golang:1.22.4-alpine3.19 AS builder
 WORKDIR /sourcecode
 COPY . .
 RUN go mod download
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o checkemailbot . && chmod +x ./checkemailbot
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o checkemailbot . && chmod +x ./checkemailbot
 
 # Final stage
 FROM alpine:3.20.0 AS final
