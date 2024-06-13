@@ -2,7 +2,7 @@ IMAGE_NAME = checkemailbot
 IMAGE_TAG = latest
 
 build:
-	docker buildx build -t $(IMAGE_NAME):$(IMAGE_TAG) .
+	docker buildx build  -t $(IMAGE_NAME):$(IMAGE_TAG) .
 
 run:
 	docker run  --rm $(IMAGE_NAME):$(IMAGE_TAG)
