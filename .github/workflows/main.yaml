@@ -1,8 +1,49 @@
-name: Go
+name: Update Releases, Build and push Image to registry
 
-on: [push]
+on:
+  push:
+    tags:
+      - 'v*'
 
 jobs:
+
+  release:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: [ '1.22.4' ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/Checkout@v4
+
+      - name: Set up Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v5
+        with:
+         go-version: ${{ matrix.go-version }}
+
+      - name: Display Go version
+        run:  go version
+
+      - name: Install dependencies
+        run:  go mod download
+
+      - name: Build Binaries
+        run:  make build all
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+        with:
+          body_path: CHANGELOG.md
+          files: |
+            dist/checkemailbot-linux-amd64.zip
+            dist/checkemailbot-windows-amd64.zip
+            dist/checkemailbot-darwin-amd64.zip
+            dist/checkemailbot-darwin-arm64.zip
+
   build:
 
     runs-on: ubuntu-latest
