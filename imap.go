@@ -37,6 +37,7 @@ func IMAPOperation(config Config) (string, error) {
 			return "", err
 		}
 		msg += fmt.Sprintf("%-30s %4d\n", ImapInfo.Username, *unreadCount)
+		fmt.Println("Notification Sent for ", ImapInfo.Username)
 		if err := client.Logout().Wait(); err != nil {
 			return "", fmt.Errorf("failed to logout %v: %v", ImapInfo.Username, err)
 		}
