@@ -18,6 +18,7 @@ type Config struct {
 
 	TelegramBotToken string `toml:"TELEGRAM_BOT_TOKEN"`
 	ChatID           int64  `toml:"CHAT_ID"`
+	Interval         int64  `toml:"INTERVAL"`
 }
 
 func main() {
@@ -66,7 +67,7 @@ func autoTrigger(config Config, b *tele.Bot) {
 				log.Printf("Error Sending Notification: %v", err)
 			}
 		}
-		time.Sleep(5 * time.Hour)
+		time.Sleep(time.Duration(config.Interval) * time.Hour)
 	}
 
 }

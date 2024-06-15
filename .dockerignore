@@ -1,2 +1,10 @@
 deploy.sh
 .idea
+config.toml
+README.md
+CHANGELOG.md
+.gitignore
+build
+dist
+.dockerignore
+scripts

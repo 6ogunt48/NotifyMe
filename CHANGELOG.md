@@ -1,25 +1,5 @@
-# Changelog
-
-## [v1.0.0] - 2023-06-13
-
-### Added
+# v0.1.0-alpha
+### Modifications
 - Initial release of the project
-- Features A, B, and C
-- Support for X and Y
-
-### Changed
-- Improved performance of Z
-- Refactored module W
-
-### Fixed
-- Fixed bug in feature P
-- Resolved issue with dependency Q
-
-## [v0.9.0] - 2023-06-01
-
-### Added
-- Beta release of the project
-- Implemented features X and Y
-
-### Fixed
-- Fixed critical bug in module Z
+- Supports only IMAPv4 email accounts
+- Supports only TOML for parsing config
