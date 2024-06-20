@@ -24,30 +24,31 @@ this [link](https://www.youtube.com/watch?v=EOke01hZgZ0) for a detailed guide on
 The bot handler that should be created are /start and /check respectively. The start handler gives a little information
 about the program and the check handler can manually check all email accounts.
 
-
-
 # Installation
 
 ## Download
+> Best method for windows operating system users
 
 Download the latest release for your cpu architecture from
 the [releases page](https://github.com/6ogunt48/checkemailbot/releases) and extract the zip file.The program will run if
 the config.toml file is in the same folder. if config is not in the same folder we can also parse the path to the config
-file when starting the program.for example:
+file when starting the program.For example:
 
 ```bash
 ./checkemailbot-darwin-arm64 --config=/path/to/config/toml/file
 ```
 
-
 ## Build from source
-You can also build the application from source by cloning the repository to your machine and running the following Make command:
+
+You can also build the application from source by cloning the repository to your machine and running the following Make
+command:
+
 ```bash
 make build
 ```
 
-
-
+This will create a `checkemailbot` executable file in the `/build` directory. You can run this file to start the
+application. The config.toml file is also needed.
 
 
 ![Continuous Integration and Delivery](https://github.com/6ogunt48/checkemailbot/actions/workflows/main.yaml/badge.svg?branch=main)
