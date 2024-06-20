@@ -12,13 +12,39 @@ the email using the bot commands on the telegram app or wait for the bot to chec
 specified interval
 time in config.
 
+# Before Installation
 
-# Installation
-Before installation. You need to create a config.toml file required by the program. This toml file has to be the same with the example shown below
+Before installation. You need to create a config.toml file required by the program. This toml file has to be the same
+with the example shown below
 
 ![TOML EXAMPLE](./assets/toml_example.png)
 
-The Telegram bot token and chat ID should be created on the telegram using bot father. Please follow this [link](https://www.youtube.com/watch?v=EOke01hZgZ0) for a detailed guide on how to do that
+The Telegram bot token and chat ID should be created on the telegram using bot father. Please follow
+this [link](https://www.youtube.com/watch?v=EOke01hZgZ0) for a detailed guide on how to do that
+The bot handler that should be created are /start and /check respectively. The start handler gives a little information
+about the program and the check handler can manually check all email accounts.
+
+
+
+# Installation
+
+## Download
+
+Download the latest release for your cpu architecture from
+the [releases page](https://github.com/6ogunt48/checkemailbot/releases) and extract the zip file.The program will run if
+the config.toml file is in the same folder. if config is not in the same folder we can also parse the path to the config
+file when starting the program.for example:
+
+```
+./checkemailbot-darwin-arm64 --config=/path/to/config/toml/file
+```
+
+
+
+
+
+
+
 
 
 ![Continuous Integration and Delivery](https://github.com/6ogunt48/checkemailbot/actions/workflows/main.yaml/badge.svg?branch=main)
