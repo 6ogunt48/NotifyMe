@@ -12,3 +12,7 @@ the email using the bot commands on the telegram app or wait for the bot to chec
 specified interval
 time in config.
 
+
+
+
+![Continuous Integration and Delivery](https://github.com/6ogunt48/checkemailbot/actions/workflows/main.yml/badge.svg?branch=main)
