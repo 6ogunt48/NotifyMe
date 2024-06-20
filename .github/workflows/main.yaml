@@ -2,6 +2,8 @@ name: Update Releases, Build and push Image to Docker registry
 
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v*'
 
