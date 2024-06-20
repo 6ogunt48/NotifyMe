@@ -44,10 +44,6 @@ jobs:
             dist/checkemailbot-darwin-amd64.zip
             dist/checkemailbot-darwin-arm64.zip
 
-  docker:
-
-    runs-on: ubuntu-latest
-    steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
