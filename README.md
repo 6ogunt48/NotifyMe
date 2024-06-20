@@ -50,5 +50,21 @@ make build
 This will create a `checkemailbot` executable file in the `/build` directory. You can run this file to start the
 application. The config.toml file is also needed.
 
+## Docker 
+> Only works with linux hosts/servers
+
+
+Please run this command to get it up and running 
+```bash
+docker pull metasploit4/checkemailbot:latest
+```
+if config.toml is in your current directory, you can bind it before running the docker file like this:
+```bash
+docker run -v $(pwd)/config.toml:/app/config.toml metasploit4/checkemailbot:latest
+```
+
+## Contributing 
+
+If you find any bugs or have any suggestions, please feel free to open an issue or submit a pull request.
 
 ![Continuous Integration and Delivery](https://github.com/6ogunt48/checkemailbot/actions/workflows/main.yaml/badge.svg?branch=main)
