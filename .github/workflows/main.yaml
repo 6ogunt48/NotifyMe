@@ -3,7 +3,6 @@ name: Update Releases, Build and push Image to Docker registry
 on:
   push:
     branches:
-      - main
     tags:
       - 'v*'
 
@@ -36,7 +35,7 @@ jobs:
       - name: Create release
         uses: softprops/action-gh-release@v2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
 
         with:
           body_path: CHANGELOG.md
