@@ -13,6 +13,12 @@ specified interval
 time in config.
 
 
+# Installation
+Before installation. You need to create a config.toml file required by the program. This toml file has to be the same with the example shown below
+
+![TOML EXAMPLE](./assets/toml_example.png)
+
+The Telegram bot token and chat ID should be created on the telegram using bot father. Please follow this [link](https://www.youtube.com/watch?v=EOke01hZgZ0) for a detailed guide on how to do that
 
 
 ![Continuous Integration and Delivery](https://github.com/6ogunt48/checkemailbot/actions/workflows/main.yaml/badge.svg?branch=main)
