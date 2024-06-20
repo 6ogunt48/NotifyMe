@@ -73,7 +73,7 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/checkemailbot:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/checkemailbot:${{ github.ref_name }}
-            
-            
-            
+
+
+
 

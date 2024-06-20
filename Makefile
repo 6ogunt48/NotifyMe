@@ -19,7 +19,7 @@ else
     $(error Unsupported operating system)
 endif
 
-.PHONY: build build-all build-current zip clean
+.PHONY: build build-all build-current zip clean release
 
 build: build-current
 
@@ -50,3 +50,5 @@ zip: build-all
 clean:
 	rm -rf $(BUILD_DIR) $(DIST_DIR)
 
+release:
+	./scripts/release.sh
