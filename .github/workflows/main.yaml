@@ -29,7 +29,7 @@ jobs:
         run:  go mod download
 
       - name: Build Binaries
-        run:  make build all
+        run:  make build-all
 
       - name: Create release
         uses: softprops/action-gh-release@v2
