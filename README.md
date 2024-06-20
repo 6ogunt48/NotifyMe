@@ -35,13 +35,16 @@ the [releases page](https://github.com/6ogunt48/checkemailbot/releases) and extr
 the config.toml file is in the same folder. if config is not in the same folder we can also parse the path to the config
 file when starting the program.for example:
 
-```
+```bash
 ./checkemailbot-darwin-arm64 --config=/path/to/config/toml/file
 ```
 
 
-
-
+## Build from source
+You can also build the application from source by cloning the repository to your machine and running the following Make command:
+```bash
+make build
+```
 
 
 
