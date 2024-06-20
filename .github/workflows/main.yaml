@@ -2,7 +2,6 @@ name: Update Releases, Build and push Image to Docker registry
 
 on:
   push:
-    branches:
     tags:
       - 'v*'
 
@@ -31,6 +30,9 @@ jobs:
 
       - name: Build Binaries
         run:  make build-all
+
+      - name: Build and Create ZIP files
+        run: make zip
 
       - name: Create release
         uses: softprops/action-gh-release@v2
