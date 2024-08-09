@@ -1,4 +1,4 @@
-# CHECKEMAILBOT
+# NotifyMe
 
 > This project is an experimental project I am using to learn how to build telegram bots. It's safe to use for personal
 > emails that supports IMAP version 4
